@@ -107,6 +107,41 @@
       white-space: nowrap;
     }
 
+    /* Custom Name */
+    .custom-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    #customName {
+      flex: 1;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+    }
+    #customName:focus { border-color: var(--primary); }
+    .btn-use {
+      background: var(--primary);
+      color: #fff;
+      padding: 0 18px;
+      white-space: nowrap;
+    }
+    .btn-use:hover { background: var(--primary-dark); }
+    .custom-hint {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    .custom-error {
+      font-size: 12.5px;
+      color: #c00;
+      margin-top: 6px;
+      display: none;
+    }
+
     /* Buttons */
     button {
       cursor: pointer;
@@ -236,7 +271,7 @@
             <stop offset="100%" stop-color="#D4A017" />
           </linearGradient>
         </defs>
-        <path d="M50 4 L78 14 L92 32 L92 66 L78 88 L50 97 L22 88 L8 66 L8 32 L22 14 Z" fill="url(#sugarGrad)" />
+        <path d="M50 4 L78 14 L92 32 L92 66 L78 88 L50 97 L22 88 L8 32 L22 14 Z" fill="url(#sugarGrad)" />
         <path d="M10 32 L50 60 L90 32" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         <path d="M10 66 L34 50 M90 66 L66 50" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round" opacity="0.7" />
         <circle cx="28" cy="26" r="1.6" fill="#fff" opacity="0.9" />
@@ -259,6 +294,15 @@
       <button class="btn-copy" onclick="copyAddress()">Copy</button>
     </div>
 
+    <!-- Custom name -->
+    <div class="label" style="margin-top:18px;">Customise Your Name</div>
+    <div class="custom-row">
+      <input type="text" id="customName" placeholder="e.g. sweetking" maxlength="20" autocomplete="off" />
+      <button class="btn-use" onclick="useCustomName()">Use This Name</button>
+    </div>
+    <p class="custom-hint">Letters, numbers, - and _ only. 3 to 20 characters. Your address becomes <b>yourname@topshugar.site</b></p>
+    <p class="custom-error" id="customError"></p>
+
     <button class="btn-new" onclick="generateAddress()">✨ Generate New Address</button>
 
     <!-- Status and expiry timer -->
@@ -279,7 +323,7 @@
   <!-- How it works -->
   <div class="info">
     <p><b>How does TOPSHUGAR Mail work?</b><br>
-    1. Copy your temporary address above.<br>
+    1. Copy your temporary address above, or type your own name.<br>
     2. Paste it wherever an email address is requested.<br>
     3. Wait for the code to appear in your inbox below.<br>
     4. Your inbox deletes itself after 10 minutes to protect your privacy.</p>
@@ -306,6 +350,49 @@
   let secondsLeft = 600; // 10 minutes
   let timerInterval;
 
+  // Clean a custom name: lowercase, allow only a-z 0-9 - _
+  function cleanName(name) {
+    return name.toLowerCase().trim()
+      .replace(/[^a-z0-9-_]/g, '')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  // Show error under custom name input
+  function showCustomError(msg) {
+    const el = document.getElementById("customError");
+    el.textContent = msg;
+    el.style.display = msg ? "block" : "none";
+  }
+
+  // Use the name typed by the user
+  function useCustomName() {
+    const raw = document.getElementById("customName").value;
+    const clean = cleanName(raw);
+
+    if (clean.length < 3) {
+      showCustomError("Please type at least 3 letters or numbers.");
+      return;
+    }
+    if (clean.length > 20) {
+      showCustomError("Keep it to 20 characters or less.");
+      return;
+    }
+
+    // If user typed invalid characters, show them the cleaned version
+    document.getElementById("customName").value = clean;
+    showCustomError("");
+
+    const address = `${clean}@${DOMAIN}`;
+    document.getElementById("emailAddress").textContent = address;
+    resetTimer();
+    loadDemoInbox();
+  }
+
+  // Allow Enter key to submit custom name
+  document.getElementById("customName").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") useCustomName();
+  });
+
   // Generate a random address: adjective-noun-number@domain
   function generateAddress() {
     const adj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
@@ -313,6 +400,8 @@
     const num = Math.floor(100 + Math.random() * 900);
     const address = `${adj}-${noun}-${num}@${DOMAIN}`;
     document.getElementById("emailAddress").textContent = address;
+    document.getElementById("customName").value = "";
+    showCustomError("");
     resetTimer();
     loadDemoInbox();
   }
