@@ -1,12 +1,16 @@
-# TOPSHUGAR — Temporary Email by Topshugar
+<p align="center">
+  <img src="logo.svg" alt="TOPSHUGAR Mail logo" width="120" />
+</p>
 
-> Get a temporary email address in one second. No sign-up. No personal details. 100% Free.
+<h1 align="center">TOPSHUGAR — Temporary Email by Topshugar</h1>
+
+<p align="center">Get a temporary email address in one second. No sign-up. No personal details. 100% Free.</p>
 
 **TOPSHUGAR Mail** is a temporary email service created by **TOPSHUGAR** — stage name of Temitope Abraham Olorunmola.
 
 It was built for people in Pakistan and several other countries who are currently unable to create a standard email account due to phone verification blocks and other restrictions. TOPSHUGAR gives them a fast, private address to receive verification codes and complete their daily tasks.
 
-**Status:** Not yet deployed.
+**Live Demo:** https://topshugar.github.io/TOPSHUGAR/
 **Domain (Planned):** `topshugar.site`
 
 ---
@@ -48,8 +52,9 @@ Type: MX | Host: @ | Value: http://mail.topshugar.site | Priority: 10
 
 ## 📁 Project Structure
 
-topshugar-mail/
+TOPSHUGAR/
 ├── http://index.html          # Main application — TOPSHUGAR Mail interface
+├── http://logo.svg            # TOPSHUGAR Mail logo
 ├── http://README.md           # Project documentation (this file)
 └── LICENSE            # MIT Licence
 
@@ -59,9 +64,9 @@ topshugar-mail/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/topshugar-mail.git
+   git clone https://github.com/topshugar/TOPSHUGAR.git
 2. Open the project folder:
-   cd topshugar-mail
+   cd TOPSHUGAR
 3. Open `index.html` in your browser:
    - Double-click `index.html`, or
    - Use Live Server in VS Code.
@@ -77,7 +82,7 @@ No build step is required. No dependencies are required.
 3. Under *Source*, select *Deploy from a branch*.
 4. Select branch `main` and folder `/ (root)`.
 5. Save. Your site will be live at:
-   https://your-username.github.io/topshugar-mail/
+   https://topshugar.github.io/TOPSHUGAR/
 ---
 
 ## 🔒 Privacy & Fair Use
