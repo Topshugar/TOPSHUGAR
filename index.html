@@ -4,22 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TOPSHUGAR — Temporary Email by Topshugar</title>
-  <meta name="description" content="TOPSHUGAR Mail. Get a temporary email address in one second. No sign-up. No personal details. Organise your codes with ease." />
+  <meta name="description" content="TOPSHUGAR Mail. Get a temporary email address in one second. No sign-up. No personal details." />
   <style>
-    /* ============================================================
-       TOPSHUGAR — Temporary Email Service
-       Brand: TOPSHUGAR (Stage Name of the Founder)
-       Language: en-GB | Spelling: British English
-       Author: Temitope Abraham Olorunmola / TOPSHUGAR
-       Version: 1.0.0 — Frontend Demonstration Build
-
-       NOTE: This is the frontend interface only.
-       Live email reception requires a domain, MX records
-       and a backend mail server. This build uses
-       demonstration inbox data for preview purposes.
-       ============================================================ */
-
-    /* ---------- Root Colour Palette ---------- */
     :root {
       --bg: #fff7fb;
       --card: #ffffff;
@@ -31,7 +17,6 @@
       --success: #1a9e62;
     }
 
-    /* ---------- Base Reset ---------- */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -44,17 +29,32 @@
       padding: 24px 16px 40px;
     }
 
-    /* ---------- Header / Branding ---------- */
+    /* Header / Branding */
     header { text-align: center; max-width: 680px; }
-    .logo {
+    .logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .logo-svg { width: 72px; height: 72px; }
+    .logo-text {
       font-size: 42px;
       font-weight: 900;
       letter-spacing: 3px;
       color: var(--primary);
+      line-height: 1;
     }
-    .logo span { color: var(--text); }
+    .logo-text span { color: var(--text); }
+    .logo-sub {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 6px;
+      color: #7b5aa6;
+      margin-top: 2px;
+    }
     .tagline {
-      margin-top: 6px;
+      margin-top: 10px;
       font-size: 15px;
       color: var(--muted);
     }
@@ -69,7 +69,7 @@
       font-weight: 700;
     }
 
-    /* ---------- Main Card ---------- */
+    /* Main Card */
     main {
       width: 100%;
       max-width: 680px;
@@ -81,7 +81,7 @@
       box-shadow: 0 8px 28px rgba(214, 51, 132, 0.08);
     }
 
-    /* ---------- Email Address Box ---------- */
+    /* Email Address Box */
     .label {
       font-size: 12px;
       font-weight: 700;
@@ -107,7 +107,7 @@
       white-space: nowrap;
     }
 
-    /* ---------- Buttons ---------- */
+    /* Buttons */
     button {
       cursor: pointer;
       border: none;
@@ -135,7 +135,7 @@
       border: 1px solid #eee;
     }
 
-    /* ---------- Meta Row: Timer + Status ---------- */
+    /* Meta Row: Timer + Status */
     .meta {
       display: flex;
       justify-content: space-between;
@@ -153,7 +153,7 @@
       margin-right: 6px;
     }
 
-    /* ---------- Inbox ---------- */
+    /* Inbox */
     .inbox-head {
       display: flex;
       justify-content: space-between;
@@ -198,38 +198,61 @@
       color: var(--primary);
     }
 
-    /* ---------- Info Section ---------- */
+    /* Info Section */
     .info {
       max-width: 680px;
       margin-top: 20px;
       font-size: 13.5px;
       line-height: 1.7;
       color: var(--muted);
-      text-align: centre;
+      text-align: center;
     }
     .info b { color: var(--text); }
 
-    /* ---------- Footer ---------- */
+    /* Footer */
     footer {
       margin-top: 22px;
       font-size: 12.5px;
       color: #999;
-      text-align: centre;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <!-- ================= HEADER ================= -->
+  <!-- Header: Brand logo and tagline -->
   <header>
-    <div class="logo">TOP<span>SHUGAR</span></div>
+    <div class="logo-wrap">
+      <!-- TOPSHUGAR Mail logo: sugar-cube envelope mark -->
+      <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TOPSHUGAR Mail logo">
+        <defs>
+          <linearGradient id="sugarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FF8AC2" />
+            <stop offset="55%" stop-color="#C86DD7" />
+            <stop offset="100%" stop-color="#6D4AC8" />
+          </linearGradient>
+          <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFE9A8" />
+            <stop offset="100%" stop-color="#D4A017" />
+          </linearGradient>
+        </defs>
+        <path d="M50 4 L78 14 L92 32 L92 66 L78 88 L50 97 L22 88 L8 66 L8 32 L22 14 Z" fill="url(#sugarGrad)" />
+        <path d="M10 32 L50 60 L90 32" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M10 66 L34 50 M90 66 L66 50" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round" opacity="0.7" />
+        <circle cx="28" cy="26" r="1.6" fill="#fff" opacity="0.9" />
+        <circle cx="68" cy="18" r="1.4" fill="#fff" opacity="0.8" />
+        <circle cx="76" cy="76" r="1.6" fill="#fff" opacity="0.9" />
+      </svg>
+      <div class="logo-text">TOP<span>SHUGAR</span></div>
+      <div class="logo-sub">Mail</div>
+    </div>
     <p class="tagline">Temporary Email by Topshugar — Get an address in one second.</p>
     <div class="badge">No sign-up &bull; No personal details &bull; 100% Free</div>
   </header>
 
-  <!-- ================= MAIN APPLICATION ================= -->
+  <!-- Main: Temporary address generator and inbox -->
   <main>
-    <!-- Current Temporary Address -->
+    <!-- Current temporary address -->
     <div class="label">Your Temporary Email Address</div>
     <div class="email-row">
       <div id="emailAddress">—</div>
@@ -238,13 +261,13 @@
 
     <button class="btn-new" onclick="generateAddress()">✨ Generate New Address</button>
 
-    <!-- Status and Expiry Timer -->
+    <!-- Status and expiry timer -->
     <div class="meta">
       <span><span class="dot"></span> Inbox Active</span>
       <span>Expires in: <span id="timer">10:00</span></span>
     </div>
 
-    <!-- Inbox Area -->
+    <!-- Inbox -->
     <div class="inbox-head">
       <h2>Inbox</h2>
       <button class="btn-refresh" onclick="refreshInbox()">↻ Refresh</button>
@@ -253,52 +276,37 @@
     <div id="inbox"></div>
   </main>
 
-  <!-- ================= INFORMATION ================= -->
+  <!-- How it works -->
   <div class="info">
     <p><b>How does TOPSHUGAR Mail work?</b><br>
     1. Copy your temporary address above.<br>
     2. Paste it wherever an email address is requested.<br>
     3. Wait for the code to appear in your inbox below.<br>
-    4. Favourite feature: Your inbox deletes itself after 10 minutes to protect your privacy.</p>
+    4. Your inbox deletes itself after 10 minutes to protect your privacy.</p>
     <p style="margin-top:10px;">Please do not use a temporary address for banking, government services, or any account you need to recover later.</p>
   </div>
 
-  <footer>© 2026 TOPSHUGAR — Crafted with care in the United Kingdom style. All rights reserved.</footer>
+  <footer>© 2026 TOPSHUGAR. All rights reserved.</footer>
 
 <script>
-  /**
-   * ============================================================
-   * TOPSHUGAR Mail — Frontend Logic
-   * ------------------------------------------------------------
-   * Purpose: Generate a random temporary address and
-   * demonstrate inbox behaviour for preview.
-   *
-   * IMPORTANT — PRODUCTION NOTE:
-   * In the live version, `fetchInbox()` must call the
-   * backend API (e.g. /api/inbox?address=...) which reads
-   * from the mail server via MX records. The demo data
-   * below is for interface testing only and must be
-   * removed before production deployment.
-   * ============================================================
-   */
+  /*
+    TOPSHUGAR Mail — Frontend v1.0.0
+    Frontend demonstration build only. No backend is connected.
+    The inbox below uses local demo data. Production requires
+    a verified domain, MX records, a mail server, and an API.
+  */
 
-  // ---------- Configuration ----------
-  // The domain must be owned and verified before launch.
-  // Example production domain: topshugar.site
+  // Domain used for generated addresses. Not yet verified for live mail.
   const DOMAIN = "topshugar.site";
 
-  // Word lists used to build a friendly, memorable address.
+  // Word lists for building a readable, memorable address.
   const ADJECTIVES = ["sweet", "cool", "golden", "happy", "velvet", "sunny", "royal", "cosy"];
   const NOUNS = ["sugar", "tiger", "star", "peach", "diamond", "cloud", "rose", "lion"];
 
-  let secondsLeft = 600; // 10 minutes in seconds
+  let secondsLeft = 600; // 10 minutes
   let timerInterval;
 
-  /**
-   * Generate a new random temporary address.
-   * Format: adjective-noun-number@topshugar.site
-   * Example: sweet-tiger-482@topshugar.site
-   */
+  // Generate a random address: adjective-noun-number@domain
   function generateAddress() {
     const adj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
     const noun = NOUNS[Math.floor(Math.random() * NOUNS.length)];
@@ -309,7 +317,7 @@
     loadDemoInbox();
   }
 
-  /** Copy the current address to the clipboard. */
+  // Copy the current address to the clipboard.
   function copyAddress() {
     const text = document.getElementById("emailAddress").textContent;
     if (!text || text === "—") return alert("Please generate an address first.");
@@ -317,7 +325,7 @@
     alert("Address copied: " + text);
   }
 
-  /** Reset the 10-minute expiry countdown. */
+  // Restart the 10-minute expiry countdown.
   function resetTimer() {
     clearInterval(timerInterval);
     secondsLeft = 600;
@@ -335,17 +343,14 @@
     }, 1000);
   }
 
-  /** Format seconds as MM:SS for display. */
+  // Format remaining seconds as MM:SS.
   function updateTimer() {
     const m = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
     const s = String(secondsLeft % 60).padStart(2, "0");
     document.getElementById("timer").textContent = `${m}:${s}`;
   }
 
-  /**
-   * Load demonstration inbox items.
-   * TODO (Production): Replace with fetch() to backend.
-   */
+  // Show the empty inbox state. Production: replace with fetch to backend API.
   function loadDemoInbox() {
     const inbox = document.getElementById("inbox");
     inbox.innerHTML = `
@@ -356,7 +361,7 @@
       </div>`;
   }
 
-  /** Simulate receiving a message — demo only. */
+  // Show one demo message. Demo only — not real mail.
   function refreshInbox() {
     const inbox = document.getElementById("inbox");
     inbox.innerHTML = `
@@ -372,7 +377,7 @@
       </div>`;
   }
 
-  // Initialise the application on page load.
+  // Initialise on page load.
   generateAddress();
 </script>
 </body>
