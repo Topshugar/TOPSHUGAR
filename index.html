@@ -2,7 +2,12 @@
 <html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#d63384" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TOPSHUGAR Mail" />
   <title>TOPSHUGAR — Temporary Email by Topshugar</title>
   <meta name="description" content="TOPSHUGAR Mail. Get a temporary email address in one second. No sign-up. No personal details." />
   <style>
@@ -15,268 +20,142 @@
       --muted: #6b6b6b;
       --border: #f0d0e0;
       --success: #1a9e62;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 24px 16px 40px;
+      padding: calc(12px + var(--safe-top)) 12px calc(88px + var(--safe-bottom));
     }
+    /* Sticky App Header */
+    .app-bar {
+      position: sticky; top: 0; z-index: 10;
+      width: 100%; max-width: 680px;
+      background: rgba(255,247,251,0.92);
+      backdrop-filter: blur(12px);
+      padding: 10px 4px 8px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .app-bar-left { display: flex; align-items: center; gap: 8px; }
+    .app-bar-left .mini-logo { width: 34px; height: 34px; }
+    .app-bar-title { font-weight: 900; font-size: 17px; letter-spacing: 1px; color: var(--primary); }
+    .app-bar-title span { color: var(--text); }
+    .app-pill { background: #ffe6f1; color: var(--primary-dark); font-size: 11px; font-weight: 800; padding: 6px 10px; border-radius: 999px; }
 
-    /* Header / Branding */
-    header { text-align: center; max-width: 680px; }
-    .logo-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-    .logo-svg { width: 72px; height: 72px; }
-    .logo-text {
-      font-size: 42px;
-      font-weight: 900;
-      letter-spacing: 3px;
-      color: var(--primary);
-      line-height: 1;
-    }
+    header { text-align: center; max-width: 680px; width: 100%; padding-top: 6px; }
+    .logo-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .logo-svg { width: 64px; height: 64px; }
+    .logo-text { font-size: 36px; font-weight: 900; letter-spacing: 3px; color: var(--primary); line-height: 1; }
     .logo-text span { color: var(--text); }
-    .logo-sub {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 6px;
-      color: #7b5aa6;
-      margin-top: 2px;
-    }
-    .tagline {
-      margin-top: 10px;
-      font-size: 15px;
-      color: var(--muted);
-    }
-    .badge {
-      display: inline-block;
-      margin-top: 12px;
-      background: #ffe6f1;
-      color: var(--primary-dark);
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 12.5px;
-      font-weight: 700;
-    }
+    .logo-sub { font-size: 15px; font-weight: 600; letter-spacing: 6px; color: #7b5aa6; margin-top: 2px; }
+    .tagline { margin-top: 10px; font-size: 14.5px; color: var(--muted); padding: 0 8px; }
+    .badge { display: inline-block; margin-top: 12px; background: #ffe6f1; color: var(--primary-dark); padding: 6px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 700; }
 
-    /* Main Card */
     main {
-      width: 100%;
-      max-width: 680px;
+      width: 100%; max-width: 680px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 22px;
-      margin-top: 20px;
+      padding: 18px 16px;
+      margin-top: 16px;
       box-shadow: 0 8px 28px rgba(214, 51, 132, 0.08);
     }
-
-    /* Email Address Box */
-    .label {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    .email-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
+    .label { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+    .email-row { display: flex; gap: 10px; margin-top: 10px; }
     #emailAddress {
-      flex: 1;
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 700;
-      background: #fffafc;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      flex: 1; min-width: 0;
+      padding: 14px; border: 1px solid var(--border); border-radius: 12px;
+      font-size: 14px; font-weight: 700; background: #fffafc;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
-
-    /* Custom Name */
-    .custom-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-    }
+    .custom-row { display: flex; gap: 10px; margin-top: 12px; }
     #customName {
-      flex: 1;
-      padding: 13px 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      font-size: 14px;
-      outline: none;
-      background: #fff;
+      flex: 1; min-width: 0; padding: 14px;
+      border: 1px solid var(--border); border-radius: 12px; font-size: 15px; outline: none; background: #fff;
     }
     #customName:focus { border-color: var(--primary); }
-    .btn-use {
-      background: var(--primary);
-      color: #fff;
-      padding: 0 18px;
-      white-space: nowrap;
-    }
+    .btn-use { background: var(--primary); color: #fff; padding: 0 16px; white-space: nowrap; }
     .btn-use:hover { background: var(--primary-dark); }
-    .custom-hint {
-      font-size: 12.5px;
-      color: var(--muted);
-      margin-top: 8px;
-    }
-    .custom-error {
-      font-size: 12.5px;
-      color: #c00;
-      margin-top: 6px;
-      display: none;
-    }
+    .custom-hint { font-size: 12.5px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+    .custom-error { font-size: 12.5px; color: #c00; margin-top: 6px; display: none; }
 
-    /* Buttons */
-    button {
-      cursor: pointer;
-      border: none;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 14px;
-    }
-    .btn-copy {
-      background: var(--primary);
-      color: #fff;
-      padding: 0 18px;
-    }
-    .btn-copy:hover { background: var(--primary-dark); }
-    .btn-new {
-      background: var(--text);
-      color: #fff;
-      padding: 13px 16px;
-      width: 100%;
-      margin-top: 12px;
-    }
-    .btn-refresh {
-      background: #f6f6f6;
-      color: var(--text);
-      padding: 10px 14px;
-      border: 1px solid #eee;
-    }
+    button { cursor: pointer; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; min-height: 48px; touch-action: manipulation; }
+    button:active { transform: scale(0.98); }
+    .btn-copy { background: var(--primary); color: #fff; padding: 0 18px; }
+    .btn-new { background: var(--text); color: #fff; padding: 13px 16px; width: 100%; margin-top: 12px; }
+    .btn-refresh { background: #f6f6f6; color: var(--text); padding: 10px 14px; border: 1px solid #eee; min-height: 42px; }
 
-    /* Meta Row: Timer + Status */
-    .meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 16px;
-      font-size: 13.5px;
-      color: var(--muted);
-    }
+    .meta { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; font-size: 13.5px; color: var(--muted); gap: 8px; flex-wrap: wrap; }
     #timer { font-weight: 800; color: var(--primary-dark); }
-    .dot {
-      display: inline-block;
-      width: 8px; height: 8px;
-      background: var(--success);
-      border-radius: 50%;
-      margin-right: 6px;
-    }
+    .dot { display: inline-block; width: 8px; height: 8px; background: var(--success); border-radius: 50%; margin-right: 6px; }
 
-    /* Inbox */
-    .inbox-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 24px;
-      margin-bottom: 12px;
-    }
+    .inbox-head { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; margin-bottom: 12px; }
     .inbox-head h2 { font-size: 18px; }
-    .empty {
-      text-align: center;
-      padding: 26px 12px;
-      border: 1px dashed var(--border);
-      border-radius: 12px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .mail-item {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      background: #fff;
-    }
+    .empty { text-align: center; padding: 26px 12px; border: 1px dashed var(--border); border-radius: 12px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .mail-item { border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 10px; cursor: pointer; background: #fff; }
     .mail-item strong { font-size: 14.5px; }
     .mail-item p { font-size: 13px; color: var(--muted); margin-top: 4px; }
-    .mail-body {
-      display: none;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid #f3f3f3;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .code {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 4px;
-      color: var(--primary);
-    }
+    .mail-body { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f3f3f3; font-size: 14px; line-height: 1.6; }
+    .code { display: inline-block; margin-top: 8px; font-size: 22px; font-weight: 900; letter-spacing: 4px; color: var(--primary); }
 
-    /* Info Section */
-    .info {
-      max-width: 680px;
-      margin-top: 20px;
-      font-size: 13.5px;
-      line-height: 1.7;
-      color: var(--muted);
-      text-align: center;
-    }
+    .info { max-width: 680px; margin-top: 18px; font-size: 13.5px; line-height: 1.7; color: var(--muted); text-align: center; padding: 0 6px; }
     .info b { color: var(--text); }
+    footer { margin-top: 22px; font-size: 12.5px; color: #999; text-align: center; padding-bottom: var(--safe-bottom); }
 
-    /* Footer */
-    footer {
-      margin-top: 22px;
-      font-size: 12.5px;
-      color: #999;
-      text-align: center;
+    /* Bottom App Nav - mobile only */
+    .bottom-nav {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+      background: #fff; border-top: 1px solid var(--border);
+      padding: 8px 12px calc(10px + var(--safe-bottom));
+      display: flex; gap: 8px; max-width: 680px; margin: 0 auto;
+    }
+    .bottom-nav button { flex: 1; font-size: 13px; }
+    .nav-copy { background: var(--primary); color: #fff; }
+    .nav-new { background: var(--text); color: #fff; }
+
+    @media (min-width: 700px) {
+      body { padding: 24px 16px 40px; }
+      .bottom-nav { display: none; }
+      .logo-text { font-size: 42px; }
+      .logo-svg { width: 72px; height: 72px; }
+      main { padding: 22px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header: Brand logo and tagline -->
+  <div class="app-bar">
+    <div class="app-bar-left">
+      <svg class="mini-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 4 L78 14 L92 32 L92 66 L78 88 L50 97 L22 88 L8 66 L8 32 L22 14 Z" fill="#d63384"/><path d="M10 32 L50 60 L90 32" fill="none" stroke="#FFE9A8" stroke-width="3" stroke-linecap="round"/></svg>
+      <div class="app-bar-title">TOP<span>SHUGAR</span></div>
+    </div>
+    <div class="app-pill">● Live</div>
+  </div>
+
   <header>
     <div class="logo-wrap">
-      <!-- TOPSHUGAR Mail logo: sugar-cube envelope mark -->
       <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TOPSHUGAR Mail logo">
         <defs>
           <linearGradient id="sugarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#FF8AC2" />
-            <stop offset="55%" stop-color="#C86DD7" />
-            <stop offset="100%" stop-color="#6D4AC8" />
+            <stop offset="0%" stop-color="#FF8AC2" /><stop offset="55%" stop-color="#C86DD7" /><stop offset="100%" stop-color="#6D4AC8" />
           </linearGradient>
           <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#FFE9A8" />
-            <stop offset="100%" stop-color="#D4A017" />
+            <stop offset="0%" stop-color="#FFE9A8" /><stop offset="100%" stop-color="#D4A017" />
           </linearGradient>
         </defs>
-        <path d="M50 4 L78 14 L92 32 L92 66 L78 88 L50 97 L22 88 L8 32 L22 14 Z" fill="url(#sugarGrad)" />
+        <path d="M50 4 L78 14 L92 32 L92 66 L78 88 L50 97 L22 88 L8 66 L8 32 L22 14 Z" fill="url(#sugarGrad)" />
         <path d="M10 32 L50 60 L90 32" fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
         <path d="M10 66 L34 50 M90 66 L66 50" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round" opacity="0.7" />
-        <circle cx="28" cy="26" r="1.6" fill="#fff" opacity="0.9" />
-        <circle cx="68" cy="18" r="1.4" fill="#fff" opacity="0.8" />
-        <circle cx="76" cy="76" r="1.6" fill="#fff" opacity="0.9" />
+        <circle cx="28" cy="26" r="1.6" fill="#fff" opacity="0.9" /><circle cx="68" cy="18" r="1.4" fill="#fff" opacity="0.8" /><circle cx="76" cy="76" r="1.6" fill="#fff" opacity="0.9" />
       </svg>
       <div class="logo-text">TOP<span>SHUGAR</span></div>
       <div class="logo-sub">Mail</div>
@@ -285,16 +164,13 @@
     <div class="badge">No sign-up &bull; No personal details &bull; 100% Free</div>
   </header>
 
-  <!-- Main: Temporary address generator and inbox -->
   <main>
-    <!-- Current temporary address -->
     <div class="label">Your Temporary Email Address</div>
     <div class="email-row">
       <div id="emailAddress">—</div>
       <button class="btn-copy" onclick="copyAddress()">Copy</button>
     </div>
 
-    <!-- Custom name -->
     <div class="label" style="margin-top:18px;">Customise Your Name</div>
     <div class="custom-row">
       <input type="text" id="customName" placeholder="e.g. sweetking" maxlength="20" autocomplete="off" />
@@ -305,22 +181,18 @@
 
     <button class="btn-new" onclick="generateAddress()">✨ Generate New Address</button>
 
-    <!-- Status and expiry timer -->
     <div class="meta">
       <span><span class="dot"></span> Inbox Active</span>
       <span>Expires in: <span id="timer">10:00</span></span>
     </div>
 
-    <!-- Inbox -->
     <div class="inbox-head">
       <h2>Inbox</h2>
       <button class="btn-refresh" onclick="refreshInbox()">↻ Refresh</button>
     </div>
-
     <div id="inbox"></div>
   </main>
 
-  <!-- How it works -->
   <div class="info">
     <p><b>How does TOPSHUGAR Mail work?</b><br>
     1. Copy your temporary address above, or type your own name.<br>
@@ -332,141 +204,83 @@
 
   <footer>© 2026 TOPSHUGAR. All rights reserved.</footer>
 
+  <!-- Mobile Bottom Bar -->
+  <div class="bottom-nav">
+    <button class="nav-copy" onclick="copyAddress()">📋 Copy Email</button>
+    <button class="nav-new" onclick="generateAddress()">✨ New</button>
+  </div>
+
 <script>
-  /*
-    TOPSHUGAR Mail — Frontend v1.0.0
-    Frontend demonstration build only. No backend is connected.
-    The inbox below uses local demo data. Production requires
-    a verified domain, MX records, a mail server, and an API.
-  */
-
-  // Domain used for generated addresses. Not yet verified for live mail.
   const DOMAIN = "topshugar.site";
-
-  // Word lists for building a readable, memorable address.
   const ADJECTIVES = ["sweet", "cool", "golden", "happy", "velvet", "sunny", "royal", "cosy"];
   const NOUNS = ["sugar", "tiger", "star", "peach", "diamond", "cloud", "rose", "lion"];
-
-  let secondsLeft = 600; // 10 minutes
+  let secondsLeft = 600;
   let timerInterval;
 
-  // Clean a custom name: lowercase, allow only a-z 0-9 - _
   function cleanName(name) {
-    return name.toLowerCase().trim()
-      .replace(/[^a-z0-9-_]/g, '')
-      .replace(/^-+|-+$/g, '');
+    return name.toLowerCase().trim().replace(/[^a-z0-9-_]/g, '').replace(/^-+|-+$/g, '');
   }
-
-  // Show error under custom name input
   function showCustomError(msg) {
     const el = document.getElementById("customError");
     el.textContent = msg;
     el.style.display = msg ? "block" : "none";
   }
-
-  // Use the name typed by the user
   function useCustomName() {
     const raw = document.getElementById("customName").value;
     const clean = cleanName(raw);
-
-    if (clean.length < 3) {
-      showCustomError("Please type at least 3 letters or numbers.");
-      return;
-    }
-    if (clean.length > 20) {
-      showCustomError("Keep it to 20 characters or less.");
-      return;
-    }
-
-    // If user typed invalid characters, show them the cleaned version
+    if (clean.length < 3) { showCustomError("Please type at least 3 letters or numbers."); return; }
     document.getElementById("customName").value = clean;
     showCustomError("");
-
-    const address = `${clean}@${DOMAIN}`;
-    document.getElementById("emailAddress").textContent = address;
-    resetTimer();
-    loadDemoInbox();
+    document.getElementById("emailAddress").textContent = `${clean}@${DOMAIN}`;
+    resetTimer(); loadDemoInbox();
   }
+  document.getElementById("customName").addEventListener("keydown", function(e){ if(e.key==="Enter") useCustomName(); });
 
-  // Allow Enter key to submit custom name
-  document.getElementById("customName").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") useCustomName();
-  });
-
-  // Generate a random address: adjective-noun-number@domain
   function generateAddress() {
     const adj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
     const noun = NOUNS[Math.floor(Math.random() * NOUNS.length)];
     const num = Math.floor(100 + Math.random() * 900);
-    const address = `${adj}-${noun}-${num}@${DOMAIN}`;
-    document.getElementById("emailAddress").textContent = address;
+    document.getElementById("emailAddress").textContent = `${adj}-${noun}-${num}@${DOMAIN}`;
     document.getElementById("customName").value = "";
     showCustomError("");
-    resetTimer();
-    loadDemoInbox();
+    resetTimer(); loadDemoInbox();
   }
-
-  // Copy the current address to the clipboard.
   function copyAddress() {
     const text = document.getElementById("emailAddress").textContent;
     if (!text || text === "—") return alert("Please generate an address first.");
     navigator.clipboard.writeText(text);
     alert("Address copied: " + text);
   }
-
-  // Restart the 10-minute expiry countdown.
   function resetTimer() {
     clearInterval(timerInterval);
-    secondsLeft = 600;
-    updateTimer();
+    secondsLeft = 600; updateTimer();
     timerInterval = setInterval(() => {
       secondsLeft--;
       if (secondsLeft <= 0) {
         clearInterval(timerInterval);
         document.getElementById("timer").textContent = "Expired";
-        document.getElementById("inbox").innerHTML =
-          '<div class="empty">This inbox has expired.<br>Please generate a new address to continue.</div>';
+        document.getElementById("inbox").innerHTML = '<div class="empty">This inbox has expired.<br>Please generate a new address to continue.</div>';
         return;
       }
       updateTimer();
     }, 1000);
   }
-
-  // Format remaining seconds as MM:SS.
   function updateTimer() {
     const m = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
     const s = String(secondsLeft % 60).padStart(2, "0");
     document.getElementById("timer").textContent = `${m}:${s}`;
   }
-
-  // Show the empty inbox state. Production: replace with fetch to backend API.
   function loadDemoInbox() {
-    const inbox = document.getElementById("inbox");
-    inbox.innerHTML = `
-      <div class="empty">
-        Waiting for emails...<br>
-        Your messages will appear here automatically.<br><br>
-        <small>Demo: Tap Refresh to preview a sample message.</small>
-      </div>`;
+    document.getElementById("inbox").innerHTML = `<div class="empty">Waiting for emails...<br>Your messages will appear here automatically.<br><br><small>Demo: Tap Refresh to preview a sample message.</small></div>`;
   }
-
-  // Show one demo message. Demo only — not real mail.
   function refreshInbox() {
-    const inbox = document.getElementById("inbox");
-    inbox.innerHTML = `
+    document.getElementById("inbox").innerHTML = `
       <div class="mail-item" onclick="this.querySelector('.mail-body').style.display = this.querySelector('.mail-body').style.display === 'block' ? 'none' : 'block'">
         <strong>Welcome to TOPSHUGAR</strong>
         <p>From: hello@topshugar.site &bull; Just now</p>
-        <div class="mail-body">
-          Welcome to TOPSHUGAR Mail.<br>
-          Your verification code is:<br>
-          <span class="code">482 916</span><br><br>
-          This is a demonstration message. In the live version, real emails will appear here.
-        </div>
+        <div class="mail-body">Welcome to TOPSHUGAR Mail.<br>Your verification code is:<br><span class="code">482 916</span><br><br>This is a demonstration message. In the live version, real emails will appear here.</div>
       </div>`;
   }
-
-  // Initialise on page load.
   generateAddress();
 </script>
 </body>
