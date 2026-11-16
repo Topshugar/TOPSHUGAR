@@ -4,10 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#d63384" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="TOPSHUGAR Mail" />
   <title>TOPSHUGAR — Temporary Email by Topshugar</title>
   <meta name="description" content="TOPSHUGAR Mail. Get a temporary email address in one second. No sign-up. No personal details." />
   <style>
@@ -20,8 +16,6 @@
       --muted: #6b6b6b;
       --border: #f0d0e0;
       --success: #1a9e62;
-      --safe-top: env(safe-area-inset-top, 0px);
-      --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html { scroll-behavior: smooth; }
@@ -34,30 +28,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: calc(12px + var(--safe-top)) 12px calc(88px + var(--safe-bottom));
+      padding: calc(16px + env(safe-area-inset-top, 0px)) 12px calc(20px + env(safe-area-inset-bottom, 0px));
     }
-    /* Sticky App Header */
-    .app-bar {
-      position: sticky; top: 0; z-index: 10;
-      width: 100%; max-width: 680px;
-      background: rgba(255,247,251,0.92);
-      backdrop-filter: blur(12px);
-      padding: 10px 4px 8px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .app-bar-left { display: flex; align-items: center; gap: 8px; }
-    .app-bar-left .mini-logo { width: 34px; height: 34px; }
-    .app-bar-title { font-weight: 900; font-size: 17px; letter-spacing: 1px; color: var(--primary); }
-    .app-bar-title span { color: var(--text); }
-    .app-pill { background: #ffe6f1; color: var(--primary-dark); font-size: 11px; font-weight: 800; padding: 6px 10px; border-radius: 999px; }
-
-    header { text-align: center; max-width: 680px; width: 100%; padding-top: 6px; }
+    header { text-align: center; max-width: 680px; width: 100%; }
     .logo-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
     .logo-svg { width: 64px; height: 64px; }
     .logo-text { font-size: 36px; font-weight: 900; letter-spacing: 3px; color: var(--primary); line-height: 1; }
     .logo-text span { color: var(--text); }
     .logo-sub { font-size: 15px; font-weight: 600; letter-spacing: 6px; color: #7b5aa6; margin-top: 2px; }
-    .tagline { margin-top: 10px; font-size: 14.5px; color: var(--muted); padding: 0 8px; }
+    .tagline { margin-top: 10px; font-size: 14.5px; color: var(--muted); padding: 0 8px; line-height: 1.5; }
     .badge { display: inline-block; margin-top: 12px; background: #ffe6f1; color: var(--primary-dark); padding: 6px 14px; border-radius: 999px; font-size: 12.5px; font-weight: 700; }
 
     main {
@@ -109,22 +88,11 @@
 
     .info { max-width: 680px; margin-top: 18px; font-size: 13.5px; line-height: 1.7; color: var(--muted); text-align: center; padding: 0 6px; }
     .info b { color: var(--text); }
-    footer { margin-top: 22px; font-size: 12.5px; color: #999; text-align: center; padding-bottom: var(--safe-bottom); }
+    footer { margin-top: 22px; font-size: 12.5px; color: #999; text-align: center; }
 
-    /* Bottom App Nav - mobile only */
-    .bottom-nav {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
-      background: #fff; border-top: 1px solid var(--border);
-      padding: 8px 12px calc(10px + var(--safe-bottom));
-      display: flex; gap: 8px; max-width: 680px; margin: 0 auto;
-    }
-    .bottom-nav button { flex: 1; font-size: 13px; }
-    .nav-copy { background: var(--primary); color: #fff; }
-    .nav-new { background: var(--text); color: #fff; }
-
+    /* Desktop: keep same look, just centred and a bit larger */
     @media (min-width: 700px) {
       body { padding: 24px 16px 40px; }
-      .bottom-nav { display: none; }
       .logo-text { font-size: 42px; }
       .logo-svg { width: 72px; height: 72px; }
       main { padding: 22px; }
@@ -132,14 +100,6 @@
   </style>
 </head>
 <body>
-
-  <div class="app-bar">
-    <div class="app-bar-left">
-      <svg class="mini-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 4 L78 14 L92 32 L92 66 L78 88 L50 97 L22 88 L8 66 L8 32 L22 14 Z" fill="#d63384"/><path d="M10 32 L50 60 L90 32" fill="none" stroke="#FFE9A8" stroke-width="3" stroke-linecap="round"/></svg>
-      <div class="app-bar-title">TOP<span>SHUGAR</span></div>
-    </div>
-    <div class="app-pill">● Live</div>
-  </div>
 
   <header>
     <div class="logo-wrap">
@@ -203,12 +163,6 @@
   </div>
 
   <footer>© 2026 TOPSHUGAR. All rights reserved.</footer>
-
-  <!-- Mobile Bottom Bar -->
-  <div class="bottom-nav">
-    <button class="nav-copy" onclick="copyAddress()">📋 Copy Email</button>
-    <button class="nav-new" onclick="generateAddress()">✨ New</button>
-  </div>
 
 <script>
   const DOMAIN = "topshugar.site";
