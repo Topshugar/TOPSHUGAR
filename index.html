@@ -90,7 +90,6 @@
     .info b { color: var(--text); }
     footer { margin-top: 22px; font-size: 12.5px; color: #999; text-align: center; }
 
-    /* Desktop: keep same look, just centred and a bit larger */
     @media (min-width: 700px) {
       body { padding: 24px 16px 40px; }
       .logo-text { font-size: 42px; }
@@ -166,10 +165,25 @@
 
 <script>
   const DOMAIN = "topshugar.site";
+  const AURUM_API = "https://aurumlexiconsignals.onrender.com";
   const ADJECTIVES = ["sweet", "cool", "golden", "happy", "velvet", "sunny", "royal", "cosy"];
   const NOUNS = ["sugar", "tiger", "star", "peach", "diamond", "cloud", "rose", "lion"];
   let secondsLeft = 600;
   let timerInterval;
+
+  // --- Register mail with Aurum Lexicon so it can login ---
+  async function registerWithAurum(email) {
+    try {
+      await fetch(`${AURUM_API}/api/register-generated-mail`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.toLowerCase() })
+      });
+      console.log('Registered with Aurum:', email);
+    } catch (e) {
+      console.log('Aurum register failed (will retry on login):', e.message);
+    }
+  }
 
   function cleanName(name) {
     return name.toLowerCase().trim().replace(/[^a-z0-9-_]/g, '').replace(/^-+|-+$/g, '');
@@ -185,7 +199,9 @@
     if (clean.length < 3) { showCustomError("Please type at least 3 letters or numbers."); return; }
     document.getElementById("customName").value = clean;
     showCustomError("");
-    document.getElementById("emailAddress").textContent = `${clean}@${DOMAIN}`;
+    const email = `${clean}@${DOMAIN}`;
+    document.getElementById("emailAddress").textContent = email;
+    registerWithAurum(email);
     resetTimer(); loadDemoInbox();
   }
   document.getElementById("customName").addEventListener("keydown", function(e){ if(e.key==="Enter") useCustomName(); });
@@ -194,9 +210,11 @@
     const adj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
     const noun = NOUNS[Math.floor(Math.random() * NOUNS.length)];
     const num = Math.floor(100 + Math.random() * 900);
-    document.getElementById("emailAddress").textContent = `${adj}-${noun}-${num}@${DOMAIN}`;
+    const email = `${adj}-${noun}-${num}@${DOMAIN}`;
+    document.getElementById("emailAddress").textContent = email;
     document.getElementById("customName").value = "";
     showCustomError("");
+    registerWithAurum(email);
     resetTimer(); loadDemoInbox();
   }
   function copyAddress() {
